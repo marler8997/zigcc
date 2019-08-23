@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -ex
+zig build
+./zig-cache/bin/zigcc || true
+
+rm -f a.out
+./zig-cache/bin/zigcc hello.c
+./a.out
+rm a.out
+
+rm -f hello
+./zig-cache/bin/zigcc -o hello hello.c
+./hello
+rm hello
+
+rm -f hello.o
+./zig-cache/bin/zigcc -c hello.c
+rm hello.o
+
+rm -f hello-custom.o
+./zig-cache/bin/zigcc -o hello-custom.o -c hello.c
+rm hello-custom.o
+
+./zig-cache/bin/zigcc -E hello.c --show-zig-cmd
+./zig-cache/bin/zigcc -E hello.c
